@@ -6,7 +6,7 @@
 /*   By: slahrach <slahrach@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 22:52:51 by slahrach          #+#    #+#             */
-/*   Updated: 2021/12/09 01:08:07 by slahrach         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:14:10 by slahrach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	func(va_list arg_ptr, char c)
 		count = aff_base16(va_arg(arg_ptr, int), c);
 	else if (c == 'p')
 		count = aff_pointer(va_arg(arg_ptr, void *));
-	else
-		return (count);
 	return (count);
 }
 
@@ -45,19 +43,15 @@ int	ft_printf(const char *src, ...)
 	i = 0;
 	r = 0;
 	va_start(arg_ptr, src);
-	while (src[i] != '\0')
+	while (src[i])
 	{
-		if (src[i] == '%')
+		if (src[i] == '%' && src[i + 1])
 		{
 			r += func(arg_ptr, src[i + 1]);
 			i += 2;
 		}
 		else
-		{
-			aff_char(src[i]);
-			i++;
-			r++;
-		}
+			r += aff_char(src[i++]);
 	}
 	va_end(arg_ptr);
 	return (r);
